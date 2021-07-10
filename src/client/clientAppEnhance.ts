@@ -1,8 +1,23 @@
 import { defineClientAppEnhance } from '@vuepress/client'
 import { SiteDataRef } from '@vuepress/client';
 
+/**
+ * 当前运行环境检测
+ * @returns ture,if is node.js environment
+ */
+function isNodeEnv(): boolean {
+    return !(typeof window != 'undefined' && window.document);
+}
+
 // 用户浏览器的首选语言
-let USER_LANGUAGE = navigator.language
+let USER_LANGUAGE = function (): string {
+    if (isNodeEnv()) {
+        return "empty language"
+    }
+    else {
+        return navigator.language
+    }
+}()
 
 /**
  * 从SiteDataRef中解析出vuepress支持的语言
